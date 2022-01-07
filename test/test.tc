@@ -1,0 +1,10 @@
+u16[10] g;
+
+function entry() : void {
+    u16 idx = 10;
+
+    while(u8(idx)) {
+        idx = idx - 1;
+        g[u32(idx)] = idx;
+    }
+}

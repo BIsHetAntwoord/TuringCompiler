@@ -1,0 +1,32 @@
+CALLING CONVENTION:
+
+Token types:
+BP: base of current function locals
+AP: base of current function args
+
+Defintion of tape spaces:
+retval_loc: preallocated space for the return value
+func_retloc: an identifier identifying the state to return to
+args: function argument space
+locals: local function data
+
+Normal function scope:
+[retval_loc] [func_retloc] AP [args] BP
+
+MAKEARGS (n):
+[retval_loc] [args: u8[n]] -> [retval_loc] AP [args: u8[n]]
+
+CALL:
+[retval_loc] AP [args] -> [retval_loc] [func_retloc: u16] AP [args]
+
+CALLIND:
+[retval_loc] AP [args] [func_addr: u16] -> [retval_loc] [func_retloc: u16] AP [args]
+
+ENTER:
+[retval_loc] [func_retloc] AP [args] -> [retval_loc] [func_retloc] AP [args] BP
+
+SETRETVAL(n):
+[retval_loc: u(n)] [func_retloc] AP [args] BP [locals] [retval: u(n)] -> [retval_loc: u(n)] [func_retloc] AP [args] BP [locals]
+
+RET:
+[retval_loc] [func_retloc] AP [args] BP [locals] -> [retval_loc]
